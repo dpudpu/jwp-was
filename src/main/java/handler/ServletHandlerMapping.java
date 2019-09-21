@@ -1,12 +1,13 @@
-package http;
+package handler;
 
+import http.Servlet;
 import servlet.IndexServlet;
 import servlet.SignupServlet;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Router {
+public class ServletHandlerMapping {
     private static final Map<String, Servlet> MAP = new HashMap<>();
 
     static {
@@ -18,11 +19,11 @@ public class Router {
         return MAP.get(path);
     }
 
-    public static Router getInstance() {
+    public static ServletHandlerMapping getInstance() {
         return LazyHolder.INSTANCE;
     }
 
     public static class LazyHolder {
-        private static final Router INSTANCE = new Router();
+        private static final ServletHandlerMapping INSTANCE = new ServletHandlerMapping();
     }
 }

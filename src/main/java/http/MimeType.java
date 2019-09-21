@@ -2,6 +2,7 @@ package http;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class MimeType {
     public final static Map<String, String> MAP = new HashMap<>();
@@ -28,5 +29,9 @@ public class MimeType {
 
     public static boolean contains(final String extension) {
         return MAP.containsKey(extension);
+    }
+
+    public static Set<String> getExtensions(){
+        return MAP.keySet();
     }
 }

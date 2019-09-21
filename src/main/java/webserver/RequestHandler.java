@@ -1,5 +1,8 @@
 package webserver;
 
+import handler.resource.ResourceHandler;
+import handler.ServletHandlerMapping;
+import handler.resource.StaticResourceHandler;
 import http.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +14,7 @@ import java.net.Socket;
 
 public class RequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
-    private static final Router ROUTER = Router.getInstance();
+    private static final ServletHandlerMapping SERVLET_HANDLER_MAPPING = ServletHandlerMapping.getInstance();
 
     private Socket connection;
 
@@ -30,15 +33,14 @@ public class RequestHandler implements Runnable {
 
             // static files
             ResourceHandler handler = StaticResourceHandler.getInstance();
-            if (handler.handle(httpRequest, httpResponse)) {
-                return;
-            }
+            handler.service(httpRequest, httpResponse);
+
 
             // servlet
-            // Router Call -> Servlet
+            // ServletHandlerMapping Call -> Servlet
             // Servlet Call
 
-            Servlet servlet = ROUTER.getServlet(httpRequest.getPath());
+            Servlet servlet = SERVLET_HANDLER_MAPPING.getServlet(httpRequest.getPath());
             if (servlet != null) {
                 servlet.service(httpRequest, httpResponse);
                 return;
